@@ -76,11 +76,8 @@ def main():
     elif "open YouTube" in command:
         webbrowser.open("youtube.com")
 
-    elif "play music" in command:
-        songs = os.listdir("C:\\Users\\Ryan\\Downloads\\Music")
-        print(songs)
-
-    elif 'the time' in command:
+    # speaks the time with "the time" in the command
+    elif "the time" in command:
         strTime = datetime.datetime.now().strftime("%H:%M")
         speak(f" Sir the time is {strTime}")
 
