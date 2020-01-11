@@ -4,10 +4,9 @@ import datetime
 import wikipedia
 import webbrowser
 import os
-import smtplib
+
 
 print("Initializing Jarvis")
-
 
 engine = pyttsx3.init()
 voices = engine.getProperty('voices')
@@ -17,6 +16,7 @@ engine.setProperty('voice', voices[0].id)
 def speak(text):
     engine.say(text)
     engine.runAndWait()
+
 
 # will wish a time designation
 def wishMe():
@@ -29,9 +29,13 @@ def wishMe():
     elif hour >= 12 and hour < 17:
         speak("Good Afternoon sir")
 
-    else: speak("Good Evening sir")
+    else: 
+        speak("Good Evening sir")
 
-    speak("How may I help you?")
+    speak("How may I help you")
+
+    
+
 
 # to take a command from the user
 def takeCommand():
@@ -39,17 +43,45 @@ def takeCommand():
     with sr.Microphone() as source:
         print("Listening...")
         audio = r.listen(source)
-
     try : 
         print("Recognizing...")
-        question = r.recognize_google(audio, Language= 'en-us')
-        print(f"user said: {question}\n")
-
+        command = r.recognize_google(audio, language = 'en-us')
+        print(f"user said: {command}\n")
     except Exception as e:
         print("Say that again please")
+        command = None
+
+    return command
 
 
 # main program
-speak("Initializing Jarvis")
-wishMe()
-takeCommand()
+
+
+def main():
+    wishMe()
+    command = takeCommand()
+# speaks summary of topic spoken with "Wikipedia" in the command
+    if "Wikipedia" in command:
+        speak ("searching wikipedia...")
+        command = command.replace("wikipedia", "")
+        results = wikipedia.summary(command, sentences =2)
+        print(results)
+        speak(results)
+
+    # opens google home page with "open Google" in the command
+    elif "open Google" in command:
+        webbrowser.open ("google.com")
+
+    # opens youtube on internet explorer with "open YouTube" in the command
+    elif "open YouTube" in command:
+        webbrowser.open("youtube.com")
+
+    elif "play music" in command:
+        songs = os.listdir("C:\\Users\\Ryan\\Downloads\\Music")
+        print(songs)
+
+    elif 'the time' in command:
+        strTime = datetime.datetime.now().strftime("%H:%M")
+        speak(f" Sir the time is {strTime}")
+
+main()
