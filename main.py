@@ -6,7 +6,7 @@ import webbrowser
 import os
 
 
-print("Initializing Jarvis")
+print("Initializing")
 
 engine = pyttsx3.init()
 voices = engine.getProperty('voices')
